@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Semana 3 - Sumativa - Thalía Riquelme</title>
+
+<style>
+  /* Estilo general del body */
+  body { 
+    font-family: Arial, sans-serif; 
+    margin: 0; padding: 0; 
+    background: linear-gradient(135deg, #fce4ec, #f3e5f5); 
+    color: #333; 
+  }
+
+  /* Estilo del header */
+  header {
+    background: linear-gradient(135deg, #ab47bc, #f06292);
+    color: #fff;
+    text-align: center;
+    padding: 30px 15px;
+    border-bottom: 5px solid #6a1b9a;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  header p {
+    margin: 8px 0 0;
+    font-size: 16px;
+    opacity: 0.9;
+  }
+
+  /* Estilo de formularios y secciones de búsqueda */
+  form, .search-section {
+    background: #ffffff; 
+    padding: 25px; 
+    border-radius: 10px; 
+    max-width: 700px; 
+    margin: 25px auto; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+  }
+
+  /* Estilo de etiquetas y campos */
+  label { display: block; margin-top: 15px; font-weight: 600; color: #444; }
+  input, select, textarea {
+    width: 100%; padding: 12px; margin-top: 6px; 
+    border-radius: 6px; border: 1px solid #bbb; 
+    font-size: 14px; background-color: #fff;
+    transition: all 0.3s ease;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: #ab47bc; 
+    box-shadow: 0 0 5px rgba(171,71,188,0.4);
+  }
+
+  /* Estilo botones */
+  button {
+    margin-top: 25px; padding: 12px 25px; 
+    border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; font-size: 15px; 
+    transition: transform 0.2s, background-color 0.3s ease;
+  }
+  button:hover { transform: scale(1.05); }
+  .btn-guardar { background-color: #66bb6a; color: #fff; }
+  .btn-guardar:hover { background-color: #43a047; }
+  .btn-limpiar { background-color: #42a5f5; color: #fff; margin-left: 10px; }
+  .btn-limpiar:hover { background-color: #1e88e5; }
+  .btn-cerrar { background-color: #ec407a; color: #fff; margin-left: 10px; }
+  .btn-cerrar:hover { background-color: #d81b60; }
+
+  /* Sección de búsqueda */
+  .search-section { border-top: 3px solid #f3e5f5; }
+  #buscarApellido { margin-right: 10px; padding: 9px; width: 70%; border: 1px solid #aaa; border-radius: 6px; }
+  #btnBuscar { background: #8e24aa; color: #fff; padding: 10px 20px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; }
+  #btnBuscar:hover { background: #6a1b9a; }
+  #resultadosBusqueda { margin-top: 15px; background: #f3f0f7; padding: 15px; border-radius: 8px; min-height: 50px; color: #444; }
+
+  hr { border: none; border-top: 1px solid #ddd; margin: 15px 0; }
+
+  /* Estilo footer */
+  footer {
+    text-align: center; 
+    padding: 15px; 
+    margin-top: 30px;
+    background: #6a1b9a; 
+    color: #fff; 
+    font-size: 14px; 
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📋 Ficha Médica</h1>
+  <p>Formulario de Ingreso de Datos - Semana 3</p>
+</header>
+
+<form id="formFicha" novalidate>
+  <!-- Campo Rut -->
+  <label for="rut">Rut</label>
+  <input type="text" id="rut" name="rut" maxlength="10"
+    pattern="^[0-9]{7,8}-?[0-9kK]{1}$" 
+    placeholder="Ej: 15323348-7" 
+    required />
+  <!-- VALIDACIÓN:
+       - required → evita que el usuario deje el campo vacío.
+       - pattern → asegura que el formato sea correcto: 7 u 8 números + guion opcional + dígito verificador (0-9 o k/K). 
+       - Esto evita ingresar RUT inválidos o incompletos. -->
+
+  <!-- Campo Nombres -->
+  <label for="nombres">Nombres</label>
+  <input type="text" id="nombres" name="nombres" required placeholder="Ingrese sus nombres" />
+  <!-- VALIDACIÓN:
+       - required → obliga a completar este campo.
+       - Evita que se guarden registros sin nombres. -->
+
+  <!-- Campo Apellidos -->
+  <label for="apellidos">Apellidos</label>
+  <input type="text" id="apellidos" name="apellidos" required placeholder="Ingrese sus apellidos" />
+  <!-- VALIDACIÓN:
+       - required → asegura que el usuario ingrese apellidos.
+       - Permite buscar por apellido correctamente y evita registros incompletos. -->
+
+  <!-- Campo Dirección -->
+  <label for="direccion">Dirección</label>
+  <input type="text" id="direccion" name="direccion" required placeholder="Ej: Calle Falsa 123" />
+  <!-- VALIDACIÓN:
+       - required → obligatorio.
+       - Evita guardar registros sin dirección, útil para identificación futura. -->
+
+  <!-- Campo Ciudad -->
+  <label for="ciudad">Ciudad</label>
+  <input type="text" id="ciudad" name="ciudad" required placeholder="Ej: Santiago" />
+  <!-- VALIDACIÓN:
+       - required → evita dejar vacío.
+       - Permite filtrar o clasificar registros por ciudad. -->
+
+  <!-- Campo Teléfono -->
+  <label for="telefono">Teléfono</label>
+  <input type="tel" id="telefono" name="telefono" maxlength="12"
+    pattern="^\+569\d{8}$" placeholder="+569XXXXXXXX" required
+    oninput="
+      if(!this.value.startsWith('+569')) this.value='+569';
+      if(this.value.length>12) this.value=this.value.slice(0,12);
+      this.value=this.value.replace(/[^\d+]/g,'');
+    " />
+  <!-- VALIDACIÓN:
+       - required → no permite dejar vacío.
+       - pattern → asegura formato chileno: +569 + 8 dígitos.
+       - oninput → previene caracteres inválidos, limita longitud y asegura +569 inicial.
+       - Evita errores al guardar o contactar al usuario. -->
+
+  <!-- Campo Email -->
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email"
+    pattern='^[^@\s]+@[^@\s]+\.[^@\s]+$' required placeholder="ejemplo@correo.com" />
+  <!-- VALIDACIÓN:
+       - required → obligatorio.
+       - pattern → asegura formato correcto de email.
+       - Evita errores al enviar notificaciones o validar usuarios. -->
+
+  <!-- Campo Fecha de nacimiento -->
+  <label for="fechaNacimiento">Fecha de Nacimiento</label>
+  <input type="date" id="fechaNacimiento" name="fechaNacimiento" max="" required />
+  <!-- VALIDACIÓN:
+       - required → obligatorio.
+       - max → no permite fechas futuras (establecido dinámicamente con JS).
+       - Garantiza consistencia y lógica en la información ingresada. -->
+
+  <!-- Campo Estado civil -->
+  <label for="estadoCivil">Estado civil</label>
+  <select id="estadoCivil" name="estadoCivil" required>
+    <option value="" disabled selected>Seleccione...</option>
+    <option value="Soltero">Soltero/a</option>
+    <option value="Casado">Casado/a</option>
+    <option value="Divorciado">Divorciado/a</option>
+    <option value="Viudo">Viudo/a</option>
+    <option value="Unión Civil">Unión Civil</option>
+  </select>
+  <!-- VALIDACIÓN:
+       - required → fuerza a seleccionar una opción.
+       - Evita registros incompletos y facilita análisis o filtrado. -->
+
+  <!-- Campo Comentarios -->
+  <label for="comentarios">Comentarios</label>
+  <textarea id="comentarios" name="comentarios" placeholder="Observaciones o comentarios" rows="4"></textarea>
+  <!-- VALIDACIÓN:
+       - opcional, pero permite agregar información adicional. -->
+
+  <!-- Botones -->
+  <button type="submit" class="btn-guardar">Guardar</button>
+  <button type="button" id="btnLimpiar" class="btn-limpiar">Limpiar</button>
+  <button type="button" id="btnCerrar" class="btn-cerrar">Cerrar</button>
+</form>
+
+<!-- Sección de búsqueda por apellido -->
+<div class="search-section">
+  <h3>Búsqueda por Apellido</h3>
+  <input type="text" id="buscarApellido" placeholder="Ingrese apellido" />
+  <button id="btnBuscar">Buscar</button>
+  <div id="resultadosBusqueda"></div>
+</div>
+
+<footer>
+  Formulario Thalía Riquelme - Semana 3
+</footer>
+
+<!-- SCRIPT: Validaciones y lógica JS -->
+<script>
+const form = document.getElementById('formFicha');
+const btnLimpiar = document.getElementById('btnLimpiar');
+const btnCerrar = document.getElementById('btnCerrar');
+const btnBuscar = document.getElementById('btnBuscar');
+const resultadosBusqueda = document.getElementById('resultadosBusqueda');
+
+// Configurar fecha máxima (hoy) para fecha de nacimiento
+document.getElementById('fechaNacimiento').max = new Date().toISOString().split('T')[0];
+
+// Función para guardar registro
+form.addEventListener('submit', function(e) {
+  e.preventDefault(); // Evita que la página se recargue al enviar
+
+  // checkValidity revisa todos los campos con required o pattern
+  if (!form.checkValidity()) {
+    alert('Por favor complete todos los campos correctamente.');
+    form.reportValidity(); // muestra mensajes nativos del navegador
+    return; // detiene el guardado
+  }
+
+  // Crear objeto con datos del formulario
+  const nuevoRegistro = { 
+    rut: form.rut.value.trim(),
+    nombres: form.nombres.value.trim(),
+    apellidos: form.apellidos.value.trim(),
+    direccion: form.direccion.value.trim(),
+    ciudad: form.ciudad.value.trim(),
+    telefono: form.telefono.value.trim(),
+    email: form.email.value.trim(),
+    fechaNacimiento: form.fechaNacimiento.value,
+    estadoCivil: form.estadoCivil.value,
+    comentarios: form.comentarios.value.trim()
+  };
+
+  // LocalStorage guarda los datos en el navegador
+  // Permite mantener información aunque se cierre la página
+  let registros = JSON.parse(localStorage.getItem('fichaMedicaRegistros') || '[]');
+
+  // Verificar si el RUT ya existe para evitar duplicados
+  let index = registros.findIndex(r => r.rut === nuevoRegistro.rut);
+  if (index >= 0) {
+    if (confirm('Ya existe un registro con este Rut. ¿Desea sobrescribirlo?')) {
+      registros[index] = nuevoRegistro; // Reemplaza datos existentes
+    } else {
+      return; // Cancela guardado si no se confirma
+    }
+  } else {
+    registros.push(nuevoRegistro); // Agrega nuevo registro
+  }
+
+  // Guardar en localStorage
+  localStorage.setItem('fichaMedicaRegistros', JSON.stringify(registros));
+  alert('Registro guardado correctamente.');
+  form.reset(); // Limpiar formulario
+});
+
+// Limpiar formulario y resultados
+btnLimpiar.addEventListener('click', () => {
+  form.reset();
+  resultadosBusqueda.innerHTML = '';
+});
+
+// Cerrar ventana
+btnCerrar.addEventListener('click', () => {
+  if (confirm('¿Desea cerrar la página?')) {
+    window.close();
+  }
+});
+
+// Buscar registros por apellido
+btnBuscar.addEventListener('click', () => {
+  const apellidoBuscado = document.getElementById('buscarApellido').value.trim().toLowerCase();
+  if (!apellidoBuscado) {
+    resultadosBusqueda.innerHTML = 'Por favor ingrese un apellido para buscar.';
+    return;
+  }
+  let registros = JSON.parse(localStorage.getItem('fichaMedicaRegistros') || '[]');
+  let encontrados = registros.filter(r => r.apellidos.toLowerCase().includes(apellidoBuscado));
+  if (encontrados.length === 0) {
+    resultadosBusqueda.innerHTML = 'No se encontraron registros para ese apellido.';
+  } else {
+    resultadosBusqueda.innerHTML = '<ul>' + encontrados.map(r => `
+      <li>
+        <strong>Rut:</strong> ${r.rut}<br>
+        <strong>Nombre:</strong> ${r.nombres} ${r.apellidos}<br>
+        <strong>Dirección:</strong> ${r.direccion}<br>
+        <strong>Ciudad:</strong> ${r.ciudad}<br>
+        <strong>Teléfono:</strong> ${r.telefono}<br>
+        <strong>Email:</strong> ${r.email}<br>
+        <strong>Fecha de Nacimiento:</strong> ${r.fechaNacimiento}<br>
+        <strong>Estado Civil:</strong> ${r.estadoCivil}<br>
+        <strong>Comentarios:</strong> ${r.comentarios}
+      </li><hr>
+    `).join('') + '</ul>';
+  }
+});
+</script>
+
+</body>
+</html>
